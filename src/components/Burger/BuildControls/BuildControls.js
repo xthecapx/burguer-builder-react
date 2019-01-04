@@ -11,7 +11,7 @@ export const controls = [
 
 function BuildControls(props) {
   const controlsEments = controls.map(control => {
-    return <BuildControl key={control.label} label={control.label} />;
+    return <BuildControl key={control.label} label={control.label} more={() => props.ingredientAdded(control.type)} />;
   });
 
   return <div className={classes.BuildControls}>{controlsEments}</div>;
