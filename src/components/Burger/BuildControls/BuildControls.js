@@ -24,7 +24,14 @@ function BuildControls(props) {
     );
   });
 
-  return <div className={classes.BuildControls}>{controlsEments}</div>;
+  return (
+    <div className={classes.BuildControls}>
+      <p>
+        Total Price: <strong>{props.price.toFixed(2)}</strong>
+      </p>
+      {controlsEments}
+    </div>
+  );
 }
 
 export default BuildControls;
