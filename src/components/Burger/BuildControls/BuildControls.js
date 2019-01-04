@@ -30,6 +30,9 @@ function BuildControls(props) {
         Total Price: <strong>{props.price.toFixed(2)}</strong>
       </p>
       {controlsEments}
+      <button className={classes.OrderButton} disabled={props.price === 4}>
+        ORDER NOW
+      </button>
     </div>
   );
 }
