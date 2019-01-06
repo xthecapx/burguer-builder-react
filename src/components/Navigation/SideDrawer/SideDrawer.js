@@ -1,18 +1,17 @@
 import React from 'react';
-import classes from './ToolBar.module.scss';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
+import classes from './SideDrawer.module.scss';
 
-function ToolBar(props) {
+function SideDrawer(props) {
   return (
-    <header className={classes.ToolBar}>
-      <div>Menu</div>
-      <Logo height='80%' />
+    <div className={classes.SideDrawer}>
+      <Logo height='11%' />
       <nav>
         <NavigationItems />
       </nav>
-    </header>
+    </div>
   );
 }
 
-export default ToolBar;
+export default SideDrawer;
