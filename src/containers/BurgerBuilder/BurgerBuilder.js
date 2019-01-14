@@ -99,7 +99,8 @@ class BurgerBuilder extends Component {
     //     console.log(error);
     //     this.setState({ loading: false, purchasing: false });
     //   });
-    this.props.history.push({ pathname: '/checkout' });
+
+    this.props.history.push({ pathname: '/checkout', state: { ...this.state.ingredients } });
     console.log(this.props);
   };
 
