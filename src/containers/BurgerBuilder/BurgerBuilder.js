@@ -73,35 +73,10 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    // this.setState({ loading: true });
-    // const body = {
-    //   ingredients: { ...this.state.ingredients },
-    //   price: this.state.totalPrice,
-    //   customer: {
-    //     name: 'Cristian',
-    //     address: {
-    //       street: 'Stret 1',
-    //       zipCode: '123',
-    //       country: 'Colombia'
-    //     },
-    //     email: 'test@test.com'
-    //   },
-    //   deliveryMethod: 'fastest'
-    // };
-
-    // axios
-    //   .post('/orders.json', body)
-    //   .then(response => {
-    //     console.log(response);
-    //     this.setState({ loading: false, purchasing: false });
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     this.setState({ loading: false, purchasing: false });
-    //   });
-
-    this.props.history.push({ pathname: '/checkout', state: { ...this.state.ingredients } });
-    console.log(this.props);
+    this.props.history.push({
+      pathname: '/checkout',
+      state: { ingredients: { ...this.state.ingredients }, totalPrice: this.state.totalPrice.toFixed(2) }
+    });
   };
 
   render() {

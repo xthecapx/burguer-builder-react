@@ -6,7 +6,8 @@ import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
   state = {
-    ingredients: this.props.location && this.props.location.state
+    ingredients: this.props.location.state && this.props.location.state.ingredients,
+    totalPrice: this.props.location.state && this.props.location.state.totalPrice
   };
 
   onCheckoutCancelledHandler = () => {
@@ -28,7 +29,11 @@ class Checkout extends Component {
             onCheckoutCancelled={this.onCheckoutCancelledHandler}
             onCheckoutContinued={this.onCheckoutContinuedHandler}
           />
-          <Route path={this.props.match.path + '/contact-data'} exact component={ContactData} />{' '}
+          <Route
+            path={this.props.match.path + '/contact-data'}
+            exact
+            render={props => <ContactData {...props} ingredients={this.state.ingredients} totalPrice={this.state.totalPrice} />}
+          />
         </>
       );
     } else {
