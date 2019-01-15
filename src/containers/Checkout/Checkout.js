@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
+import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
   state = {
-    ingredients: {
-      salad: 1,
-      meat: 1,
-      cheese: 1,
-      bacon: 1
-    }
+    ingredients: this.props.location && this.props.location.state
   };
 
   onCheckoutCancelledHandler = () => {
@@ -16,19 +14,28 @@ class Checkout extends Component {
   };
 
   onCheckoutContinuedHandler = () => {
-    this.props.history.replace('/checkout/contact-data');
+    this.props.history.push('/checkout/contact-data');
   };
 
   render() {
-    return (
-      <div>
-        <CheckoutSummary
-          ingredients={this.props.location.state}
-          onCheckoutCancelled={this.onCheckoutCancelledHandler}
-          onCheckoutContinued={this.onCheckoutContinuedHandler}
-        />
-      </div>
-    );
+    let $checkoutSummary = null;
+
+    if (this.state.ingredients) {
+      $checkoutSummary = (
+        <>
+          <CheckoutSummary
+            ingredients={this.state.ingredients}
+            onCheckoutCancelled={this.onCheckoutCancelledHandler}
+            onCheckoutContinued={this.onCheckoutContinuedHandler}
+          />
+          <Route path={this.props.match.path + '/contact-data'} exact component={ContactData} />{' '}
+        </>
+      );
+    } else {
+      $checkoutSummary = <Redirect to='/' />;
+    }
+
+    return <div>{$checkoutSummary}</div>;
   }
 }
 
