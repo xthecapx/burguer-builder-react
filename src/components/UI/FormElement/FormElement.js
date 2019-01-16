@@ -5,24 +5,36 @@ function FormElement(props) {
   let $formElement = null;
   const inputClasses = [classes.Element];
 
-  if (!props.valid && props.shouldValidate) {
+  if (!props.valid && props.shouldValidate && props.touched) {
     inputClasses.push(classes.Invalid);
   }
 
   switch (props.elementType) {
     case 'input':
       $formElement = (
-        <input className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} onChange={props.valueChanges} />
+        <input
+          className={inputClasses.join(' ')}
+          {...props.elementConfig}
+          value={props.value}
+          onChange={props.valueChanges}
+          onFocus={props.onFocused}
+        />
       );
       break;
     case 'textarea':
       $formElement = (
-        <textarea className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} onChange={props.valueChanges} />
+        <textarea
+          className={inputClasses.join(' ')}
+          {...props.elementConfig}
+          value={props.value}
+          onChange={props.valueChanges}
+          onFocus={props.onFocused}
+        />
       );
       break;
     case 'select':
       $formElement = (
-        <select className={inputClasses.join(' ')} value={props.value} onChange={props.valueChanges}>
+        <select className={inputClasses.join(' ')} value={props.value} onChange={props.valueChanges} onFocus={props.onFocused}>
           {props.elementConfig.options.map(option => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -33,7 +45,13 @@ function FormElement(props) {
       break;
     default:
       $formElement = (
-        <input className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} onChange={props.valueChanges} />
+        <input
+          className={inputClasses.join(' ')}
+          {...props.elementConfig}
+          value={props.value}
+          onChange={props.valueChanges}
+          onFocus={props.onFocused}
+        />
       );
   }
 

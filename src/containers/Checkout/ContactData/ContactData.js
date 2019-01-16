@@ -20,7 +20,8 @@ class ContactData extends Component {
         validation: {
           required: true
         },
-        valid: false
+        valid: false,
+        touched: false
       },
       {
         key: 'street',
@@ -33,7 +34,8 @@ class ContactData extends Component {
         validation: {
           required: true
         },
-        valid: false
+        valid: false,
+        touched: false
       },
       {
         key: 'zipCode',
@@ -48,7 +50,8 @@ class ContactData extends Component {
           minLength: 5,
           maxLength: 5
         },
-        valid: false
+        valid: false,
+        touched: false
       },
       {
         key: 'country',
@@ -61,7 +64,8 @@ class ContactData extends Component {
         validation: {
           required: true
         },
-        valid: false
+        valid: false,
+        touched: false
       },
       {
         key: 'email',
@@ -74,7 +78,8 @@ class ContactData extends Component {
         validation: {
           required: true
         },
-        valid: false
+        valid: false,
+        touched: false
       },
       {
         key: 'deliveryMethod',
@@ -91,7 +96,8 @@ class ContactData extends Component {
             }
           ]
         },
-        value: ''
+        value: '',
+        touched: false
       }
     ],
     loading: false
@@ -161,6 +167,20 @@ class ContactData extends Component {
     return isValid;
   }
 
+  setFocus(key) {
+    this.setState(prevStatus => {
+      const orderForm = prevStatus.orderForm.map(formElement => {
+        if (formElement.key === key) {
+          formElement.touched = true;
+          console.log('touched');
+        }
+        return formElement;
+      });
+
+      return { ...orderForm };
+    });
+  }
+
   render() {
     const $formElements = this.state.orderForm.map((formElement, index) => {
       return (
@@ -172,6 +192,8 @@ class ContactData extends Component {
           shouldValidate={formElement.validation}
           value={formElement.value}
           valueChanges={event => this.valueChangesHandler(event, formElement.key)}
+          onFocused={() => this.setFocus(formElement.key)}
+          touched={formElement.touched}
         />
       );
     });
