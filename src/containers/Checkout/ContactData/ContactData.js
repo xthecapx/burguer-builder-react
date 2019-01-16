@@ -100,7 +100,8 @@ class ContactData extends Component {
         touched: false
       }
     ],
-    loading: false
+    loading: false,
+    formIsValid: false
   };
 
   orderHandler = event => {
@@ -145,7 +146,11 @@ class ContactData extends Component {
         return formElement;
       });
 
-      return { ...orderForm };
+      const formIsValid = prevStatus.orderForm.every(formElement => formElement.valid || !formElement.validation);
+
+      console.log(formIsValid);
+
+      return { ...orderForm, formIsValid };
     });
   };
 
@@ -201,7 +206,9 @@ class ContactData extends Component {
     let $form = (
       <form onSubmit={this.orderHandler}>
         {$formElements}
-        <Button btnType='Success'>ORDER</Button>
+        <Button btnType='Success' disabled={!this.state.formIsValid}>
+          ORDER
+        </Button>
       </form>
     );
 
