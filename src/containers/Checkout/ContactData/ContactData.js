@@ -96,7 +96,7 @@ class ContactData extends Component {
             }
           ]
         },
-        value: '',
+        value: 'cheapest',
         touched: false
       }
     ],
