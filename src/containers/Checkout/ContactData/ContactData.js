@@ -8,31 +8,87 @@ import FormElement from '../../../components/UI/FormElement/FormElement';
 
 class ContactData extends Component {
   state = {
-    name: '',
-    email: '',
-    address: {
-      street: '',
-      postalCode: ''
-    },
+    orderForm: [
+      {
+        key: 'name',
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Your name'
+        },
+        value: ''
+      },
+      {
+        key: 'street',
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Street'
+        },
+        value: ''
+      },
+      {
+        key: 'zipCode',
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'ZIP Code'
+        },
+        value: ''
+      },
+      {
+        key: 'country',
+        elementType: 'input',
+        elementConfig: {
+          type: 'text',
+          placeholder: 'Country'
+        },
+        value: ''
+      },
+      {
+        key: 'email',
+        elementType: 'input',
+        elementConfig: {
+          type: 'email',
+          placeholder: 'Your Email'
+        },
+        value: ''
+      },
+      {
+        key: 'deliveryMethod',
+        elementType: 'select',
+        elementConfig: {
+          options: [
+            {
+              value: 'fastest',
+              label: 'Fastest'
+            },
+            {
+              value: 'cheapest',
+              label: 'Cheapest'
+            }
+          ]
+        },
+        value: ''
+      }
+    ],
     loading: false
   };
 
   orderHandler = event => {
     event.preventDefault();
     this.setState({ loading: true });
+
+    const formData = this.state.orderForm.reduce((acc, formElement) => {
+      acc[formElement.key] = formElement.value;
+
+      return acc;
+    }, {});
+
     const body = {
       ingredients: { ...this.props.ingredients },
       price: this.props.totalPrice,
-      customer: {
-        name: 'Cristian',
-        address: {
-          street: 'Stret 1',
-          zipCode: '123',
-          country: 'Colombia'
-        },
-        email: 'test@test.com'
-      },
-      deliveryMethod: 'fastest'
+      ...formData
     };
 
     axios
@@ -48,16 +104,39 @@ class ContactData extends Component {
       });
   };
 
+  valueChangesHandler = (event, key) => {
+    const newValue = event.target.value;
+
+    this.setState(prevStatus => {
+      const orderForm = prevStatus.orderForm.map(formElement => {
+        if (formElement.key === key) {
+          formElement.value = newValue;
+        }
+
+        return formElement;
+      });
+
+      return { ...orderForm };
+    });
+  };
+
   render() {
+    const $formElements = this.state.orderForm.map((formElement, index) => {
+      return (
+        <FormElement
+          key={index}
+          elementType={formElement.elementType}
+          elementConfig={formElement.elementConfig}
+          value={formElement.value}
+          valueChanges={event => this.valueChangesHandler(event, formElement.key)}
+        />
+      );
+    });
+
     let $form = (
-      <form>
-        <FormElement elementype='input' type='text' name='name' placeholder='Your email' />
-        <FormElement elementype='input' type='email' name='email' placeholder='Your email' />
-        <FormElement elementype='input' type='text' name='street' placeholder='Street' />
-        <FormElement elementype='input' type='text' name='postalCode' placeholder='Postal code' />
-        <Button btnType='Success' clicked={this.orderHandler}>
-          ORDER
-        </Button>
+      <form onSubmit={this.orderHandler}>
+        {$formElements}
+        <Button btnType='Success'>ORDER</Button>
       </form>
     );
 

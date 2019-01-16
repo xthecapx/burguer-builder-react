@@ -4,15 +4,26 @@ import classes from './FormElement.module.scss';
 function FormElement(props) {
   let $formElement = null;
 
-  switch (props.elementype) {
+  switch (props.elementType) {
     case 'input':
-      $formElement = <input className={classes.Input} {...props} />;
+      $formElement = <input className={classes.Input} {...props.elementConfig} value={props.value} onChange={props.valueChanges} />;
       break;
     case 'textarea':
-      $formElement = <textarea className={classes.TextArea} {...props} />;
+      $formElement = <textarea className={classes.TextArea} {...props.elementConfig} value={props.value} onChange={props.valueChanges} />;
+      break;
+    case 'select':
+      $formElement = (
+        <select className={classes.Input} value={props.value} onChange={props.valueChanges}>
+          {props.elementConfig.options.map(option => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      );
       break;
     default:
-      $formElement = <input className={classes.Input} {...props} />;
+      $formElement = <input className={classes.Input} {...props.elementConfig} value={props.value} onChange={props.valueChanges} />;
   }
 
   return (
