@@ -4,6 +4,8 @@ import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import classes from './ContactData.module.scss';
 
+import FormElement from '../../../components/UI/FormElement/FormElement';
+
 class ContactData extends Component {
   state = {
     name: '',
@@ -49,10 +51,10 @@ class ContactData extends Component {
   render() {
     let $form = (
       <form>
-        <input className={classes.Input} type='text' name='name' placeholder='Your email' />
-        <input className={classes.Input} type='email' name='email' placeholder='Your email' />
-        <input className={classes.Input} type='text' name='street' placeholder='Street' />
-        <input className={classes.Input} type='text' name='postalCode' placeholder='Postal code' />
+        <FormElement elementype='input' type='text' name='name' placeholder='Your email' />
+        <FormElement elementype='input' type='email' name='email' placeholder='Your email' />
+        <FormElement elementype='input' type='text' name='street' placeholder='Street' />
+        <FormElement elementype='input' type='text' name='postalCode' placeholder='Postal code' />
         <Button btnType='Success' clicked={this.orderHandler}>
           ORDER
         </Button>
