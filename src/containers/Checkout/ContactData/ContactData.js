@@ -168,6 +168,8 @@ class ContactData extends Component {
           key={index}
           elementType={formElement.elementType}
           elementConfig={formElement.elementConfig}
+          valid={formElement.valid}
+          shouldValidate={formElement.validation}
           value={formElement.value}
           valueChanges={event => this.valueChangesHandler(event, formElement.key)}
         />
