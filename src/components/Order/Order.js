@@ -2,11 +2,22 @@ import React from 'react';
 import classes from './Order.module.scss';
 
 function Order(props) {
+  const $ingredients = Object.keys(props.ingredients)
+    .filter(ingredient => props.ingredients[ingredient])
+    .map((ingredient, index, ingredients) => {
+      return (
+        <span className={classes.Ingredients} key={ingredient + index}>
+          {ingredient} ({props.ingredients[ingredient]}){ingredients.length - 1 === index ? null : ', '}
+        </span>
+      );
+    })
+    .reduce((acc, element) => acc.concat(element), []);
+
   return (
     <div className={classes.Order}>
-      <p>Ingredients: Salad (1)</p>
+      <p>Ingredients: {$ingredients}</p>
       <p>
-        Price: <strong>5.03</strong>
+        Price: <strong>USD {props.price}</strong>
       </p>
     </div>
   );

@@ -15,7 +15,7 @@ class Orders extends Component {
       .get('/orders.json')
       .then(res => {
         const fetchedOrders = Object.keys(res.data).map(key => {
-          return { ...res.data[key], id: key };
+          return { ...res.data[key], key };
         });
 
         console.log(fetchedOrders);
@@ -27,12 +27,9 @@ class Orders extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <Order />
-        <Order />
-      </div>
-    );
+    const $orders = this.state.orders.map(order => <Order key={order.key} ingredients={order.ingredients} price={order.price} />);
+
+    return <div>{$orders}</div>;
   }
 }
 
