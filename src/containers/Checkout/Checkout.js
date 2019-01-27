@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
-  state = {
-    ingredients: this.props.location.state && this.props.location.state.ingredients,
-    totalPrice: this.props.location.state && this.props.location.state.totalPrice
-  };
-
   onCheckoutCancelledHandler = () => {
     this.props.history.goBack();
   };
@@ -21,19 +17,15 @@ class Checkout extends Component {
   render() {
     let $checkoutSummary = null;
 
-    if (this.state.ingredients) {
+    if (this.props.ingredients) {
       $checkoutSummary = (
         <>
           <CheckoutSummary
-            ingredients={this.state.ingredients}
+            ingredients={this.props.ingredients}
             onCheckoutCancelled={this.onCheckoutCancelledHandler}
             onCheckoutContinued={this.onCheckoutContinuedHandler}
           />
-          <Route
-            path={this.props.match.path + '/contact-data'}
-            exact
-            render={props => <ContactData {...props} ingredients={this.state.ingredients} totalPrice={this.state.totalPrice} />}
-          />
+          <Route path={this.props.match.path + '/contact-data'} exact component={ContactData} />
         </>
       );
     } else {
@@ -44,4 +36,10 @@ class Checkout extends Component {
   }
 }
 
-export default Checkout;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.ingredients
+  };
+};
+
+export default connect(mapStateToProps)(Checkout);
