@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './Auth.module.scss';
 import { connect } from 'react-redux';
+import axios from '../../axios-auth';
 
 import FormElement from '../../components/UI/FormElement/FormElement';
 import Button from '../../components/UI/Button/Button';

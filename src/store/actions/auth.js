@@ -1,4 +1,5 @@
 import * as types from './types';
+import axios from '../../axios-auth';
 
 export const authStart = () => {
   return {
@@ -23,5 +24,20 @@ export const authFail = error => {
 export const login = (email, password) => {
   return dispatch => {
     dispatch(authStart());
+    const authData = {
+      email,
+      password,
+      returnSecureToken: true
+    };
+    axios
+      .post(`signupNewUser?key=${process.env.REACT_APP_FB}`, authData)
+      .then(response => {
+        console.log(response);
+        dispatch(authSuccess(response.data));
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(authFail());
+      });
   };
 };
