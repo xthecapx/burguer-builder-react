@@ -6,20 +6,24 @@ const initialState = {
   purchased: false
 };
 
+const purchaseBurgerSuccess = (state, action) => {
+  const newOrder = {
+    ...action.orderData,
+    id: action.id
+  };
+
+  return {
+    ...state,
+    loading: false,
+    purchased: true,
+    order: state.orders.concat(newOrder)
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case types.PURCHASE_BURGER_SUCCESS:
-      const newOrder = {
-        ...action.orderData,
-        id: action.id
-      };
-
-      return {
-        ...state,
-        loading: false,
-        purchased: true,
-        order: state.orders.concat(newOrder)
-      };
+      return purchaseBurgerSuccess(state, action);
     case types.PURCHASE_BURGER_FAIL:
       return {
         ...state,
