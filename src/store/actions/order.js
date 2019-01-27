@@ -37,3 +37,9 @@ export const purchaseBurger = body => {
       });
   };
 };
+
+export const purchaseInit = () => {
+  return {
+    type: types.PURCHASE_INIT
+  };
+};

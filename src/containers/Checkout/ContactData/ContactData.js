@@ -118,7 +118,7 @@ class ContactData extends Component {
 
     const body = {
       ingredients: { ...this.props.ingredients },
-      price: this.props.totalPrice,
+      price: this.props.totalPrice.toFixed(2),
       ...formData
     };
 
