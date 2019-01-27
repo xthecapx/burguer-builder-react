@@ -21,7 +21,7 @@ export const authFail = error => {
   };
 };
 
-export const login = (email, password) => {
+export const login = (email, password, isSignup) => {
   return dispatch => {
     dispatch(authStart());
     const authData = {
@@ -29,15 +29,21 @@ export const login = (email, password) => {
       password,
       returnSecureToken: true
     };
+    let URL = `signupNewUser?key=${process.env.REACT_APP_FB}`;
+
+    if (isSignup) {
+      URL = `verifyPassword?key=${process.env.REACT_APP_FB}`;
+    }
+
     axios
-      .post(`signupNewUser?key=${process.env.REACT_APP_FB}`, authData)
+      .post(URL, authData)
       .then(response => {
         console.log(response);
         dispatch(authSuccess(response.data));
       })
       .catch(error => {
         console.log(error);
-        dispatch(authFail());
+        dispatch(authFail(error.response));
       });
   };
 };
