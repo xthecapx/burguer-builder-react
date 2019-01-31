@@ -22,11 +22,11 @@ export const purchaseBurgerStart = () => {
   };
 };
 
-export const purchaseBurger = body => {
+export const purchaseBurger = (body, token) => {
   return dispatch => {
     dispatch(purchaseBurgerStart());
     axios
-      .post('/orders.json', body)
+      .post('/orders.json?auth=' + token, body)
       .then(response => {
         console.log('[Redux][ContactData]', response);
         dispatch(purchaseBurgerSuccess(response.data.name, body));
@@ -64,11 +64,11 @@ export const fetchOrdersStart = () => {
   };
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = token => {
   return dispatch => {
     dispatch(fetchOrdersStart());
     axios
-      .get('/orders.json')
+      .get('/orders.json?auth=' + token)
       .then(res => {
         const fetchedOrders = Object.keys(res.data).map(key => {
           return { ...res.data[key], key };

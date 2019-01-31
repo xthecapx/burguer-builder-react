@@ -145,11 +145,11 @@ class Auth extends Component {
 
     return (
       <div className={classes.Auth}>
-        <h1>{this.state.isSignup ? 'SIGN UP' : 'SIGN IN'}</h1>
+        <h1>{this.state.isSignup ? 'SIGN IN' : 'SIGN UP'}</h1>
         {$errorMessage}
         {$form}
         <Button btnType='Danger' clicked={this.switchAuthModeHandler}>
-          SWITCH TO {this.state.isSignup ? 'SIGN IN' : 'SIGN UP'}
+          SWITCH TO {this.state.isSignup ? 'SIGN UP' : 'SIGN IN'}
         </Button>
       </div>
     );
