@@ -7,14 +7,15 @@ export const authStart = () => {
   };
 };
 
-export const authSuccess = authData => {
+export const authSuccess = ({ idToken, localId }) => {
   return {
     type: types.AUTH_SUCCESS,
-    authData
+    token: idToken,
+    userId: localId
   };
 };
 
-export const authFail = error => {
+export const authFail = ({ error }) => {
   return {
     type: types.AUTH_FAIL,
     error
@@ -42,8 +43,8 @@ export const login = (email, password, isSignup) => {
         dispatch(authSuccess(response.data));
       })
       .catch(error => {
-        console.log(error);
-        dispatch(authFail(error.response));
+        console.log(error.response);
+        dispatch(authFail(error.response.data));
       });
   };
 };

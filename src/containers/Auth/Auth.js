@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import classes from './Auth.module.scss';
 import { connect } from 'react-redux';
-import axios from '../../axios-auth';
 
 import FormElement from '../../components/UI/FormElement/FormElement';
 import Button from '../../components/UI/Button/Button';
 import { login } from '../../store/actions';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Auth extends Component {
   state = {
@@ -108,7 +108,7 @@ class Auth extends Component {
   };
 
   render() {
-    const $formElements = this.state.controls.map((formElement, index) => {
+    let $formElements = this.state.controls.map((formElement, index) => {
       return (
         <FormElement
           key={index}
@@ -124,6 +124,16 @@ class Auth extends Component {
       );
     });
 
+    if (this.props.loading) {
+      $formElements = <Spinner />;
+    }
+
+    let $errorMessage = null;
+
+    if (this.props.error) {
+      $errorMessage = <p>{this.props.error.message}</p>;
+    }
+
     let $form = (
       <form onSubmit={this.onSubmitHandler}>
         {$formElements}
@@ -136,6 +146,7 @@ class Auth extends Component {
     return (
       <div className={classes.Auth}>
         <h1>{this.state.isSignup ? 'SIGN UP' : 'SIGN IN'}</h1>
+        {$errorMessage}
         {$form}
         <Button btnType='Danger' clicked={this.switchAuthModeHandler}>
           SWITCH TO {this.state.isSignup ? 'SIGN IN' : 'SIGN UP'}
@@ -145,6 +156,13 @@ class Auth extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     onLogin: (email, password, isSignup) => dispatch(login(email, password, isSignup))
@@ -152,6 +170,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Auth);
