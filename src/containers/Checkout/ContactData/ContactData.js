@@ -117,12 +117,13 @@ class ContactData extends Component {
     }, {});
 
     const body = {
+      ...formData,
       ingredients: { ...this.props.ingredients },
       price: this.props.totalPrice.toFixed(2),
-      ...formData
+      userId: this.props.userId
     };
 
-    this.props.onOrderBurger(body);
+    this.props.onOrderBurger(body, this.props.token);
   };
 
   valueChangesHandler = (event, key) => {
@@ -220,13 +221,15 @@ const mapStateToProps = state => {
   return {
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
-    loading: state.order.loading
+    loading: state.order.loading,
+    token: state.auth.token,
+    userId: state.auth.userId
   };
 };
 
 const mapDispatchToProp = dispatch => {
   return {
-    onOrderBurger: orderData => dispatch(purchaseBurger(orderData))
+    onOrderBurger: (orderData, token) => dispatch(purchaseBurger(orderData, token))
   };
 };
 

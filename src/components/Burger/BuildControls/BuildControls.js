@@ -31,7 +31,7 @@ function BuildControls(props) {
       </p>
       {controlsEments}
       <button className={classes.OrderButton} disabled={props.price <= 4} onClick={props.purchasing}>
-        ORDER NOW
+        {props.isAuthenticated ? 'ORDER NOW' : 'SIGN UP TO ORDER'}
       </button>
     </div>
   );
