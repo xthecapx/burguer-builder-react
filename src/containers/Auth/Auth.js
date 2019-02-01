@@ -7,6 +7,7 @@ import FormElement from '../../components/UI/FormElement/FormElement';
 import Button from '../../components/UI/Button/Button';
 import { login, setAuthRedirectPath } from '../../store/actions';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import { checkValidity } from '../../shared/utility';
 
 class Auth extends Component {
   state = {
@@ -59,7 +60,7 @@ class Auth extends Component {
       const controls = prevStatus.controls.map(formElement => {
         if (formElement.key === key) {
           formElement.value = newValue;
-          formElement.valid = this.checkValidity(newValue, formElement.validation);
+          formElement.valid = checkValidity(newValue, formElement.validation);
         }
         return formElement;
       });
@@ -69,24 +70,6 @@ class Auth extends Component {
       return { ...controls, formIsValid };
     });
   };
-
-  checkValidity(value, rules) {
-    let isValid = true;
-
-    if (rules && rules.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-
-    if (rules && rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules && rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    return isValid;
-  }
 
   setFocus(key) {
     this.setState(prevStatus => {

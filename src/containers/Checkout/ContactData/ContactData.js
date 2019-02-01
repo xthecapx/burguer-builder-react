@@ -8,6 +8,7 @@ import classes from './ContactData.module.scss';
 import FormElement from '../../../components/UI/FormElement/FormElement';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import { purchaseBurger } from '../../../store/actions';
+import { checkValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
   state = {
@@ -133,7 +134,7 @@ class ContactData extends Component {
       const orderForm = prevStatus.orderForm.map(formElement => {
         if (formElement.key === key) {
           formElement.value = newValue;
-          formElement.valid = this.checkValidity(newValue, formElement.validation);
+          formElement.valid = checkValidity(newValue, formElement.validation);
           console.log(formElement);
         }
         return formElement;
@@ -146,24 +147,6 @@ class ContactData extends Component {
       return { ...orderForm, formIsValid };
     });
   };
-
-  checkValidity(value, rules) {
-    let isValid = true;
-
-    if (rules && rules.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-
-    if (rules && rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules && rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    return isValid;
-  }
 
   setFocus(key) {
     this.setState(prevStatus => {
